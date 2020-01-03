@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotaDrainCore.WebApi", "Dot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotaDrainCore.DataContext", "DotaDrainCore.DataContext\DotaDrainCore.DataContext.csproj", "{90AFE0F4-8767-4D98-BD81-2F72691CA555}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotaDrainCore.Entities", "DotaDrainCore.Entities\DotaDrainCore.Entities.csproj", "{BC84CCDE-6F4D-458E-868F-11AFF973AB3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{90AFE0F4-8767-4D98-BD81-2F72691CA555}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90AFE0F4-8767-4D98-BD81-2F72691CA555}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90AFE0F4-8767-4D98-BD81-2F72691CA555}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC84CCDE-6F4D-458E-868F-11AFF973AB3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC84CCDE-6F4D-458E-868F-11AFF973AB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC84CCDE-6F4D-458E-868F-11AFF973AB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC84CCDE-6F4D-458E-868F-11AFF973AB3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
