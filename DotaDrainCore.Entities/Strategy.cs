@@ -6,5 +6,6 @@ namespace DotaDrainCore.Entities
 {
     public class Strategy : Entity
     {
+        public List<Hero> SuggestedHeroes { get; set; }
     }
 }
