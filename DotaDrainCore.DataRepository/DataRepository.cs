@@ -22,5 +22,15 @@ namespace DotaDrainCore.DataRepository
             return _dataContext.GetMatch(id);
         }
 
+        public BatchSizeConfiguration UpdateBatchSizeConfiguration(BatchSizeConfiguration configuration)
+        {
+            return _dataContext.UpdateBatchSizeConfiguration(configuration);
+        }
+
+        public BatchSizeConfiguration getBatchSizeConfiguration()
+        {
+            return _dataContext.GetBatchSizeConfiguration();
+        }
+
     }
 }
