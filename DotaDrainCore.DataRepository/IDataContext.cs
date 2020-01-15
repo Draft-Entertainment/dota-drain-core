@@ -8,9 +8,10 @@ namespace DotaDrainCore.DataRepository
     public interface IDataContext
     {
         Match InsertMatch(Match match);
-
         Match GetMatch(int id);
 
+        BatchSizeConfiguration UpdateBatchSizeConfiguration(BatchSizeConfiguration configuration);
         BatchSizeConfiguration GetBatchSizeConfiguration();
+
     }
 }
