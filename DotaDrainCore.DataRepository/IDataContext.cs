@@ -8,10 +8,14 @@ namespace DotaDrainCore.DataRepository
 {
     public interface IDataContext
     {
-        Task<Match> InsertMatchAsync(Match match);
+        Task<Match> InsertMatch(Match match);
+
         Task<Match> GetMatch(int id);
 
+        Task<List<Match>> GetMatches();
+        
         Task<BatchSizeConfiguration> UpdateBatchSizeConfiguration(BatchSizeConfiguration configuration);
+
         Task<BatchSizeConfiguration> GetBatchSizeConfiguration();
 
     }

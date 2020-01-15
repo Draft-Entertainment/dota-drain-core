@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DotaDrainCore.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class SystemConfigurationController : ControllerBase
     {
         private SystemConfigurationFactory systemConfigurationFactory = new SystemConfigurationFactory();

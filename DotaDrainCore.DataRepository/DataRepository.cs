@@ -15,7 +15,7 @@ namespace DotaDrainCore.DataRepository
 
         public async Task<Match> InsertMatchAsync(Match match)
         {
-            return await _dataContext.InsertMatchAsync(match);
+            return await _dataContext.InsertMatch(match);
         }
 
         public async Task<Match> GetMatchAsync(int id)

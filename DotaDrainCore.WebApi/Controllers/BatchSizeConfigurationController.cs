@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DotaDrainCore.DataContext;
 using DotaDrainCore.Entities;
 using DotaDrainCore.EfDatabase;
+using DotaDrainCore.DataRepository;
 
 namespace DotaDrainCore.WebApi.Controllers
 {
@@ -16,12 +17,12 @@ namespace DotaDrainCore.WebApi.Controllers
     public class BatchSizeConfigurationController : ControllerBase
     {
         private readonly DotaDrainContext _context;
-        private readonly EfDataRepository _dataRepository;
+        private readonly IDataContext _dataContext;
 
         public BatchSizeConfigurationController(DotaDrainContext context)
         {
             _context = context;
-            _dataRepository = new EfDataRepository(_context);
+            _dataContext = new EfDataRepository(_context);
         }
 
 
@@ -29,7 +30,7 @@ namespace DotaDrainCore.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<BatchSizeConfiguration>> Get()
         {
-            var batchSizeConfiguration = await _dataRepository.GetBatchSizeConfiguration();
+            var batchSizeConfiguration = await _dataContext.GetBatchSizeConfiguration();
 
             if (batchSizeConfiguration == null)
             {
@@ -50,7 +51,7 @@ namespace DotaDrainCore.WebApi.Controllers
                 return BadRequest();
             }            
 
-            return await _dataRepository.UpdateBatchSizeConfiguration(batchSizeConfiguration);
+            return await _dataContext.UpdateBatchSizeConfiguration(batchSizeConfiguration);
         }
 
         // POST: api/BatchSizeConfiguration

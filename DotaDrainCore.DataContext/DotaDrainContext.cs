@@ -12,7 +12,7 @@ namespace DotaDrainCore.DataContext
         {
 
         }
-
+        
         public DbSet<BatchSizeConfiguration> BatchSizeConfigurations { get; set; }
         public DbSet<GameVersion> GameVersions { get; set; }
         public DbSet<Player> Players { get; set; }
@@ -36,6 +36,5 @@ namespace DotaDrainCore.DataContext
             modelBuilder.Entity<Strategy>().ToTable("Strategies");
             modelBuilder.Entity<WeightConfiguration>().ToTable("WeightConfigurations");
         }
-
     }
 }
