@@ -10,5 +10,7 @@ namespace DotaDrainCore.DataRepository
         Match InsertMatch(Match match);
 
         Match GetMatch(int id);
+
+        BatchSizeConfiguration GetBatchSizeConfiguration();
     }
 }

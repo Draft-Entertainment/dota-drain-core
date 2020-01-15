@@ -1,19 +1,20 @@
-﻿using DotaDrainCore.Entities;
+﻿using DotaDrainCore.DataRepository;
+using DotaDrainCore.Entities;
 using System;
 
 namespace DotaDrainCore.Factories
 {
     public class SystemConfigurationFactory
     {
-        private IDataService dataService;
+        private IDataContext dataContext;
         public SystemConfigurationFactory()
         {
-            dataService = dataService.GetInstance();
+            
         }
 
         public BatchSizeConfiguration GetBatchSizeConfigurationConfiguration()
         {
-            return dataService<BatchSizeConfiguration>.Get();
+            return dataContext.GetBatchSizeConfiguration();
         }
     }
 }
