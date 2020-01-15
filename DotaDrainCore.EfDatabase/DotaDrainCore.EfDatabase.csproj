@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotaDrainCore.DataContext\DotaDrainCore.DataContext.csproj" />
+    <ProjectReference Include="..\DotaDrainCore.DataRepository\DotaDrainCore.DataRepository.csproj" />
+  </ItemGroup>
+
+</Project>

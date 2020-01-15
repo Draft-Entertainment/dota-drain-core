@@ -1,6 +1,7 @@
 ﻿using DotaDrainCore.DataRepository;
 using DotaDrainCore.Entities;
 using System;
+using System.Threading.Tasks;
 
 namespace DotaDrainCore.Factories
 {
@@ -9,12 +10,12 @@ namespace DotaDrainCore.Factories
         private IDataContext dataContext;
         public SystemConfigurationFactory()
         {
-            
+
         }
 
-        public BatchSizeConfiguration GetBatchSizeConfigurationConfiguration()
+        public async Task<BatchSizeConfiguration> GetBatchSizeConfigurationConfiguration()
         {
-            return dataContext.GetBatchSizeConfiguration();
+            return await dataContext.GetBatchSizeConfiguration();
         }
     }
 }

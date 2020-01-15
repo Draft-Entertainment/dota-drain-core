@@ -6,9 +6,9 @@ using System.Text;
 
 namespace DotaDrainCore.DataContext
 {
-    public class DataContext: DbContext
+    public class DotaDrainContext: DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options): base(options)
+        public DotaDrainContext(DbContextOptions<DotaDrainContext> options): base(options)
         {
 
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DotaDrainCore.Factories;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,14 @@ namespace DotaDrainCore.WebApi.Controllers
     [Route("[controller]")]
     public class SystemConfigurationController : ControllerBase
     {
+        private SystemConfigurationFactory systemConfigurationFactory = new SystemConfigurationFactory();
+
         [HttpGet]
         [Route("[action]")]
-        public int GetBatchSizeConfiguration()
+        public int Get()
         {
-            return 1000;
+            var batchSize = systemConfigurationFactory.GetBatchSizeConfigurationConfiguration();
+            return batchSize.Result.Value;
         }
     }
 }

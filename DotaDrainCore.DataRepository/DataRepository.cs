@@ -1,5 +1,6 @@
 ﻿using DotaDrainCore.Entities;
 using System;
+using System.Threading.Tasks;
 
 namespace DotaDrainCore.DataRepository
 {
@@ -12,24 +13,24 @@ namespace DotaDrainCore.DataRepository
             _dataContext = dataContext;
         }
 
-        public Match InsertMatch(Match match)
+        public async Task<Match> InsertMatchAsync(Match match)
         {
-            return _dataContext.InsertMatch(match);
+            return await _dataContext.InsertMatchAsync(match);
         }
 
-        public Match GetMatch(int id)
+        public async Task<Match> GetMatchAsync(int id)
         {
-            return _dataContext.GetMatch(id);
+            return await _dataContext.GetMatch(id);
         }
 
-        public BatchSizeConfiguration UpdateBatchSizeConfiguration(BatchSizeConfiguration configuration)
+        public async Task<BatchSizeConfiguration> UpdateBatchSizeConfigurationAsync(BatchSizeConfiguration configuration)
         {
-            return _dataContext.UpdateBatchSizeConfiguration(configuration);
+            return await _dataContext.UpdateBatchSizeConfiguration(configuration);
         }
 
-        public BatchSizeConfiguration getBatchSizeConfiguration()
+        public async Task<BatchSizeConfiguration> getBatchSizeConfigurationAsync()
         {
-            return _dataContext.GetBatchSizeConfiguration();
+            return await _dataContext.GetBatchSizeConfiguration();
         }
 
     }

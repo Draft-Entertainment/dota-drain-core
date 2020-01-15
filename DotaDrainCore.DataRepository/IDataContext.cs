@@ -2,16 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DotaDrainCore.DataRepository
 {
     public interface IDataContext
     {
-        Match InsertMatch(Match match);
-        Match GetMatch(int id);
+        Task<Match> InsertMatchAsync(Match match);
+        Task<Match> GetMatch(int id);
 
-        BatchSizeConfiguration UpdateBatchSizeConfiguration(BatchSizeConfiguration configuration);
-        BatchSizeConfiguration GetBatchSizeConfiguration();
+        Task<BatchSizeConfiguration> UpdateBatchSizeConfiguration(BatchSizeConfiguration configuration);
+        Task<BatchSizeConfiguration> GetBatchSizeConfiguration();
 
     }
 }
