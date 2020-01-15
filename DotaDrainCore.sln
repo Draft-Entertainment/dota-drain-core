@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotaDrainCore.Entities", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotaDrainCore.SteamDataCollector", "DotaDrainCore.SteamDataCollector\DotaDrainCore.SteamDataCollector.csproj", "{6E42FF12-C27A-43BA-8327-590C16E2AF62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotaDrainCore.SteamApiCommunication", "DotaDrainCore.SteamApiCommunication\DotaDrainCore.SteamApiCommunication.csproj", "{0BD6FE26-D294-4EC2-916D-AF57453F37B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotaDrainCore.DataRepository", "DotaDrainCore.DataRepository\DotaDrainCore.DataRepository.csproj", "{C0E57F2E-DEAC-4A18-AB50-9E31AE538919}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{6E42FF12-C27A-43BA-8327-590C16E2AF62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E42FF12-C27A-43BA-8327-590C16E2AF62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E42FF12-C27A-43BA-8327-590C16E2AF62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BD6FE26-D294-4EC2-916D-AF57453F37B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BD6FE26-D294-4EC2-916D-AF57453F37B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BD6FE26-D294-4EC2-916D-AF57453F37B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BD6FE26-D294-4EC2-916D-AF57453F37B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0E57F2E-DEAC-4A18-AB50-9E31AE538919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0E57F2E-DEAC-4A18-AB50-9E31AE538919}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0E57F2E-DEAC-4A18-AB50-9E31AE538919}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0E57F2E-DEAC-4A18-AB50-9E31AE538919}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
