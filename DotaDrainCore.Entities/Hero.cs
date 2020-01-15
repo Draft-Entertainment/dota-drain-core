@@ -6,7 +6,7 @@ namespace DotaDrainCore.Entities
 {
     public class Hero : Entity
     {
-        public int ExternalId { get; set; }
+        public uint ExternalId { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
     }

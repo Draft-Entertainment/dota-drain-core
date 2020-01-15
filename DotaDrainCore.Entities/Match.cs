@@ -6,9 +6,8 @@ namespace DotaDrainCore.Entities
 {
     public class Match : Entity
     {
-        public uint ExternalMatchId { get; set; }
-        public DateTime? EndDate { get; set; }
-        public GameVersion Patch { get; set; }
+        public ulong ExternalMatchId { get; set; }
+        public DateTime? StartDate { get; set; }
         public List<PlayerMatchHistory> MatchHistory { get; set; }
         public Side Winner { get; set; }
     }

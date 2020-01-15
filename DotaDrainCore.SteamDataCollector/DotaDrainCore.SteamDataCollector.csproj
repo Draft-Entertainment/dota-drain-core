@@ -9,4 +9,9 @@
     <PackageReference Include="SteamWebAPI2" Version="4.0.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DotaDrainCore.DataRepository\DotaDrainCore.DataRepository.csproj" />
+    <ProjectReference Include="..\DotaDrainCore.SteamApiCommunication\DotaDrainCore.SteamApiCommunication.csproj" />
+  </ItemGroup>
+
 </Project>
