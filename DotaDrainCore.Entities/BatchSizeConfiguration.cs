@@ -7,6 +7,6 @@ namespace DotaDrainCore.Entities
 {
     public class BatchSizeConfiguration : Entity
     {
-        public double Value { get; set; }
+        public int Value { get; set; }
     }
 }

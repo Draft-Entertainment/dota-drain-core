@@ -8,7 +8,6 @@ namespace DotaDrainCore.Entities
     {
         public int ExternalId { get; set; }
         public string Name { get; set; }
-        // Base64 formatted image
-        public string Icon { get; set; }
+        public string Image { get; set; }
     }
 }

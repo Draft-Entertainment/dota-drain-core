@@ -7,7 +7,6 @@ namespace DotaDrainCore.Entities
 {
     public class Entity
     {
-        [Key]
         public int Id { get; set; }
     }
 }

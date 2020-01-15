@@ -8,6 +8,7 @@ namespace DotaDrainCore.Entities
     {
         public int PlayerId { get; set; }
         public int SteamAccountId { get; set; }
+        public string Name { get; set; }
         public bool HasDotaPlus { get; set; }
     }
 }
