@@ -54,7 +54,7 @@ namespace DotaDrainCore.EfDatabase
 
         public async Task<Match> InsertMatch(Match match)
         {
-            match.MatchHistory.ForEach(matchHistory =>
+            match.PlayerMatchHistories.ForEach(matchHistory =>
             {
                 // TODO : refactor
                 var heroFromDb = matchHistory.Hero != null ? _context.Heroes.FirstOrDefault(hero => hero.ExternalId == matchHistory.Hero.ExternalId) : null;
@@ -84,7 +84,7 @@ namespace DotaDrainCore.EfDatabase
             });
 
             // Do not write match without players
-            if (match.MatchHistory.Any(m => m.HeroId == 0 && m.Hero == null))
+            if (match.PlayerMatchHistories.Any(m => m.HeroId == 0 && m.Hero == null))
                 return null;
 
             var result = await _context.Matches.AddAsync(match);

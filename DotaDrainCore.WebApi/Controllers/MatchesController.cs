@@ -25,7 +25,8 @@ namespace DotaDrainCore.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Match>>> Get()
         {
-            return await _dataContext.GetMatches();
+            var matches = await _dataContext.GetMatches();
+            return matches;
         }
 
         [HttpGet("{id}")]

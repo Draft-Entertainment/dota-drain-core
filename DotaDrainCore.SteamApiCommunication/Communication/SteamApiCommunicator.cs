@@ -54,7 +54,7 @@ namespace DotaDrainCore.SteamApiCommunication.Communication
                         StartDate = matchDetails.StartTime,
                         ExternalMatchId = match.MatchId,
                         Winner = matchDetails.RadiantWin ? Side.Radiant : Side.Dire,
-                        MatchHistory = matchDetails.Players.Select(p => new PlayerMatchHistory()
+                        PlayerMatchHistories = matchDetails.Players.Select(p => new PlayerMatchHistory()
                         {
                             Kills = (int)p.Kills,
                             Deaths = (int)p.Assists,

@@ -9,6 +9,6 @@ namespace DotaDrainCore.Entities
         public ulong ExternalMatchId { get; set; }
         public DateTime? StartDate { get; set; }
         public Side Winner { get; set; }
-        public List<PlayerMatchHistory> MatchHistory { get; set; }
+        public virtual List<PlayerMatchHistory> PlayerMatchHistories { get; set; }
     }
 }
