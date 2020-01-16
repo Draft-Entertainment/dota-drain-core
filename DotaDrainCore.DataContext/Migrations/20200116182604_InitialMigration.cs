@@ -35,17 +35,18 @@ namespace DotaDrainCore.DataContext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
+                name: "Heroes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExternalId = table.Column<long>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.PrimaryKey("PK_Heroes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,25 +71,12 @@ namespace DotaDrainCore.DataContext.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PlayerId = table.Column<long>(nullable: false),
-                    SteamAccountId = table.Column<long>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    HasDotaPlus = table.Column<bool>(nullable: false)
+                    SteamAccountId = table.Column<long>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Players", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Strategies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Strategies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,35 +96,13 @@ namespace DotaDrainCore.DataContext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Heroes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ExternalId = table.Column<long>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Image = table.Column<string>(nullable: true),
-                    StrategyId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Heroes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Heroes_Strategies_StrategyId",
-                        column: x => x.StrategyId,
-                        principalTable: "Strategies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PlayerMatchHistories",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PlayerId = table.Column<int>(nullable: true),
-                    HeroId = table.Column<int>(nullable: true),
+                    PlayerId = table.Column<int>(nullable: false),
+                    HeroId = table.Column<int>(nullable: false),
                     Side = table.Column<int>(nullable: false),
                     Kills = table.Column<int>(nullable: false),
                     Deaths = table.Column<int>(nullable: false),
@@ -151,7 +117,7 @@ namespace DotaDrainCore.DataContext.Migrations
                         column: x => x.HeroId,
                         principalTable: "Heroes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlayerMatchHistories_Matches_MatchId",
                         column: x => x.MatchId,
@@ -163,30 +129,25 @@ namespace DotaDrainCore.DataContext.Migrations
                         column: x => x.PlayerId,
                         principalTable: "Players",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "HeroItems",
+                name: "Items",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AcquiringTime = table.Column<TimeSpan>(nullable: false),
-                    ItemId = table.Column<int>(nullable: true),
+                    ExternalId = table.Column<long>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
                     PlayerMatchHistoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HeroItems", x => x.Id);
+                    table.PrimaryKey("PK_Items", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HeroItems_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_HeroItems_PlayerMatchHistories_PlayerMatchHistoryId",
+                        name: "FK_Items_PlayerMatchHistories_PlayerMatchHistoryId",
                         column: x => x.PlayerMatchHistoryId,
                         principalTable: "PlayerMatchHistories",
                         principalColumn: "Id",
@@ -194,18 +155,8 @@ namespace DotaDrainCore.DataContext.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Heroes_StrategyId",
-                table: "Heroes",
-                column: "StrategyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HeroItems_ItemId",
-                table: "HeroItems",
-                column: "ItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HeroItems_PlayerMatchHistoryId",
-                table: "HeroItems",
+                name: "IX_Items_PlayerMatchHistoryId",
+                table: "Items",
                 column: "PlayerMatchHistoryId");
 
             migrationBuilder.CreateIndex(
@@ -233,13 +184,10 @@ namespace DotaDrainCore.DataContext.Migrations
                 name: "GameVersions");
 
             migrationBuilder.DropTable(
-                name: "HeroItems");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "WeightConfigurations");
-
-            migrationBuilder.DropTable(
-                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "PlayerMatchHistories");
@@ -252,9 +200,6 @@ namespace DotaDrainCore.DataContext.Migrations
 
             migrationBuilder.DropTable(
                 name: "Players");
-
-            migrationBuilder.DropTable(
-                name: "Strategies");
         }
     }
 }

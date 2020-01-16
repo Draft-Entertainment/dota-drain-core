@@ -20,7 +20,6 @@ namespace DotaDrainCore.DataContext
         public DbSet<Item> Items { get; set; }
         public DbSet<Match> Matches { get; set; }
         public DbSet<PlayerMatchHistory> PlayerMatchHistories { get; set; }
-        public DbSet<Strategy> Strategies { get; set; }
         public DbSet<WeightConfiguration> WeightConfigurations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,8 +30,8 @@ namespace DotaDrainCore.DataContext
             modelBuilder.Entity<Item>().ToTable("Items");
             modelBuilder.Entity<Match>().ToTable("Matches");
             modelBuilder.Entity<PlayerMatchHistory>().ToTable("PlayerMatchHistories");
-            modelBuilder.Entity<Strategy>().ToTable("Strategies");
             modelBuilder.Entity<WeightConfiguration>().ToTable("WeightConfigurations");
+            modelBuilder.Entity<Hero>().ToTable("Heroes");
         }
     }
 }

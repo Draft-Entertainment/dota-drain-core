@@ -10,6 +10,5 @@ namespace DotaDrainCore.Entities
         public string Name { get; set; }
         public string Image { get; set; }
         public virtual List<PlayerMatchHistory> PlayerMatchHistories { get; set; }
-        public virtual List<Strategy> Strategies { get; set; }
     }
 }

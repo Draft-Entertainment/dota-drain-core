@@ -11,7 +11,6 @@ namespace DotaDrainCore.EfDatabase
     public class EfDataRepository : IDataContext
     {
         private DotaDrainContext _context;
-        private string v;
 
         public EfDataRepository(DotaDrainContext context)
         {
@@ -22,6 +21,7 @@ namespace DotaDrainCore.EfDatabase
         {
             var optionsBuilder = new DbContextOptionsBuilder<DotaDrainContext>().UseSqlServer(connectionString).Options;
             _context = new DotaDrainContext(optionsBuilder);
+            _context.Database.EnsureCreated();
         }
 
         public async Task<BatchSizeConfiguration> GetBatchSizeConfiguration()

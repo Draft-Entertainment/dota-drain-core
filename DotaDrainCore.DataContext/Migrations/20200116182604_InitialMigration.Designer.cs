@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotaDrainCore.DataContext.Migrations
 {
     [DbContext(typeof(DotaDrainContext))]
-    [Migration("20200115201544_InitialMigration")]
+    [Migration("20200116182604_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,39 +70,9 @@ namespace DotaDrainCore.DataContext.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StrategyId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("StrategyId");
 
                     b.ToTable("Heroes");
-                });
-
-            modelBuilder.Entity("DotaDrainCore.Entities.HeroItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<TimeSpan>("AcquiringTime")
-                        .HasColumnType("time");
-
-                    b.Property<int?>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PlayerMatchHistoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("PlayerMatchHistoryId");
-
-                    b.ToTable("HeroItems");
                 });
 
             modelBuilder.Entity("DotaDrainCore.Entities.Item", b =>
@@ -115,10 +85,18 @@ namespace DotaDrainCore.DataContext.Migrations
                     b.Property<long>("ExternalId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PlayerMatchHistoryId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PlayerMatchHistoryId");
 
                     b.ToTable("Items");
                 });
@@ -151,16 +129,13 @@ namespace DotaDrainCore.DataContext.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("HasDotaPlus")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("PlayerId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("SteamAccountId")
+                    b.Property<long?>("SteamAccountId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -181,7 +156,7 @@ namespace DotaDrainCore.DataContext.Migrations
                     b.Property<int>("Deaths")
                         .HasColumnType("int");
 
-                    b.Property<int?>("HeroId")
+                    b.Property<int>("HeroId")
                         .HasColumnType("int");
 
                     b.Property<int>("Kills")
@@ -190,7 +165,7 @@ namespace DotaDrainCore.DataContext.Migrations
                     b.Property<int?>("MatchId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerId")
+                    b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
                     b.Property<int>("Side")
@@ -205,18 +180,6 @@ namespace DotaDrainCore.DataContext.Migrations
                     b.HasIndex("PlayerId");
 
                     b.ToTable("PlayerMatchHistories");
-                });
-
-            modelBuilder.Entity("DotaDrainCore.Entities.Strategy", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Strategies");
                 });
 
             modelBuilder.Entity("DotaDrainCore.Entities.WeightConfiguration", b =>
@@ -243,19 +206,8 @@ namespace DotaDrainCore.DataContext.Migrations
                     b.ToTable("WeightConfigurations");
                 });
 
-            modelBuilder.Entity("DotaDrainCore.Entities.Hero", b =>
+            modelBuilder.Entity("DotaDrainCore.Entities.Item", b =>
                 {
-                    b.HasOne("DotaDrainCore.Entities.Strategy", null)
-                        .WithMany("SuggestedHeroes")
-                        .HasForeignKey("StrategyId");
-                });
-
-            modelBuilder.Entity("DotaDrainCore.Entities.HeroItem", b =>
-                {
-                    b.HasOne("DotaDrainCore.Entities.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId");
-
                     b.HasOne("DotaDrainCore.Entities.PlayerMatchHistory", null)
                         .WithMany("Items")
                         .HasForeignKey("PlayerMatchHistoryId");
@@ -264,8 +216,10 @@ namespace DotaDrainCore.DataContext.Migrations
             modelBuilder.Entity("DotaDrainCore.Entities.PlayerMatchHistory", b =>
                 {
                     b.HasOne("DotaDrainCore.Entities.Hero", "Hero")
-                        .WithMany()
-                        .HasForeignKey("HeroId");
+                        .WithMany("PlayerMatchHistories")
+                        .HasForeignKey("HeroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DotaDrainCore.Entities.Match", null)
                         .WithMany("MatchHistory")
@@ -273,7 +227,9 @@ namespace DotaDrainCore.DataContext.Migrations
 
                     b.HasOne("DotaDrainCore.Entities.Player", "Player")
                         .WithMany()
-                        .HasForeignKey("PlayerId");
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

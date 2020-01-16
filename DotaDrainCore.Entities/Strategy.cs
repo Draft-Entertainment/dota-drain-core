@@ -6,7 +6,7 @@ namespace DotaDrainCore.Entities
 {
     public class Strategy : Entity
     {
-        public virtual List<Hero> SuggestedHeroes { get; set; }
-        public virtual List<Item> SuggestedItems { get; set; }
+        public List<Hero> SuggestedHeroes { get; set; }
+        public List<Item> SuggestedItems { get; set; }
     }
 }
