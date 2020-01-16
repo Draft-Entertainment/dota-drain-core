@@ -70,18 +70,15 @@ namespace DotaDrainCore.SteamApiCommunication.Communication
                             },
                             Items = new List<uint> { p.Item0, p.Item1, p.Item2, p.Item3, p.Item4, p.Item5 }
                                 .Where(p => p != 0)
-                                .Select(i => new HeroItem()
+                                .Select(i => new Item()
                                 {
-                                    Item = new Item()
-                                    {
-                                        ExternalId = i,
-                                        Name = items.FirstOrDefault(it => it.Id == i).LocalizedName
-                                    }
+                                    ExternalId = i,                                    
+                                    Name = items.FirstOrDefault(it => it.Id == i).LocalizedName,
                                 }).ToList(),
                             Player = new Player()
                             {
                                 PlayerId = p.AccountId,
-                                SteamAccountId = p.AccountId
+                                SteamAccountId = p.AccountId,
                             }
                         }).ToList()
                     };

@@ -17,7 +17,6 @@ namespace DotaDrainCore.DataContext
         public DbSet<GameVersion> GameVersions { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Hero> Heroes { get; set; }
-        public DbSet<HeroItem> HeroItems { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Match> Matches { get; set; }
         public DbSet<PlayerMatchHistory> PlayerMatchHistories { get; set; }
@@ -30,7 +29,6 @@ namespace DotaDrainCore.DataContext
             modelBuilder.Entity<GameVersion>().ToTable("GameVersions");
             modelBuilder.Entity<Player>().ToTable("Players");
             modelBuilder.Entity<Item>().ToTable("Items");
-            modelBuilder.Entity<HeroItem>().ToTable("HeroItems");
             modelBuilder.Entity<Match>().ToTable("Matches");
             modelBuilder.Entity<PlayerMatchHistory>().ToTable("PlayerMatchHistories");
             modelBuilder.Entity<Strategy>().ToTable("Strategies");
