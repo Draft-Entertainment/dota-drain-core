@@ -1,15 +1,9 @@
-﻿using SteamWebAPI2.Interfaces;
-using SteamWebAPI2.Utilities;
-using System;
-using System.Net.Http;
-using System.Linq;
+﻿using System;
 using DotaDrainCore.SteamApiCommunication.Communication;
-using DotaDrainCore.SteamApiCommunication.Models;
 using DotaDrainCore.DataRepository;
 using DotaDrainCore.EfDatabase;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using DotaDrainCore.DataContext;
 using System.Threading.Tasks;
 using System.Threading;
 
