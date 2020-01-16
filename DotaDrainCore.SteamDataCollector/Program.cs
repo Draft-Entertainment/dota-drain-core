@@ -31,7 +31,7 @@ namespace DotaDrainCore.SteamDataCollector
             }
         }
 
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             Console.WriteLine("Steam data collector starting");
 
@@ -49,9 +49,9 @@ namespace DotaDrainCore.SteamDataCollector
             {
                 Console.WriteLine("To exit write 'stop'");
                 answer = Console.ReadLine();
-            } while (answer == "stop");
+            } while (answer != "stop");
             _continueWorking = false;
-            
+
             // End
             Console.WriteLine("Steam data collector terminating");
         }
@@ -74,10 +74,10 @@ namespace DotaDrainCore.SteamDataCollector
             {
                 SteamApiCommunicator communicator = new SteamApiCommunicator(Key);
                 int batchSize = _dataRepository.GetBatchSizeConfiguration().Result.Value;
-                var matches = await communicator.GetMatches(batchSize);
+                var matches = communicator.GetMatches(batchSize);
 
 
-                foreach (var match in matches)
+                await foreach (var match in matches)
                 {
                     if (!(await _dataRepository.CheckMatchExistance(match.ExternalMatchId)))
                     {
