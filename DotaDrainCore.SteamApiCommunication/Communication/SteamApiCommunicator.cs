@@ -17,7 +17,7 @@ namespace DotaDrainCore.SteamApiCommunication.Communication
 
         public SteamApiCommunicator(string apiKey)
         {
-            _interfaceFactory = new SteamWebInterfaceFactory(apiKey); //"F402A8BD4427CA62314326C7F7BAF435"
+            _interfaceFactory = new SteamWebInterfaceFactory(apiKey);
         }
 
         public async Task<List<Match>> GetMatches(int batchSize, ulong startAtMatch = 0)
@@ -43,7 +43,7 @@ namespace DotaDrainCore.SteamApiCommunication.Communication
                     startAtMatch = matches.Matches.Min(m => m.MatchId);
                 } while (matchesCount < batchSize);
 
-
+                
 
                 var dota2EconomyInteraface = _interfaceFactory.CreateSteamWebInterface<DOTA2Econ>(new HttpClient());
                 var heroes = (await dota2EconomyInteraface.GetHeroesAsync()).Data;
@@ -52,7 +52,7 @@ namespace DotaDrainCore.SteamApiCommunication.Communication
 
                 List<Match> mappedMatches = new List<Match>();
 
-                foreach (var match in allMatches)
+                foreach (var match in allMatches.Take(batchSize))
                 {
                     var matchDetails = (await dota2Interaface.GetMatchDetailsAsync(match.MatchId)).Data;
                     if (matchDetails != null)

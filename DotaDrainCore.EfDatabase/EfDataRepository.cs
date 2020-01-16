@@ -58,6 +58,11 @@ namespace DotaDrainCore.EfDatabase
             return result.Entity;
         }
 
+        public async Task<bool> CheckMatchExistance(ulong externalMatchId)
+        {
+            return await _context.Matches.AnyAsync(m => m.ExternalMatchId == externalMatchId);
+        }
+
         public async Task<BatchSizeConfiguration> UpdateBatchSizeConfiguration(BatchSizeConfiguration configuration)
         {
             _context.Entry(configuration).State = EntityState.Modified;

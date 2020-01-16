@@ -10,6 +10,8 @@ using DotaDrainCore.EfDatabase;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using DotaDrainCore.DataContext;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace DotaDrainCore.SteamDataCollector
 {
@@ -17,29 +19,85 @@ namespace DotaDrainCore.SteamDataCollector
     {
         private static IConfiguration _configuration;
         private static IDataContext _dataRepository;
+        private static bool _continueWorking;
 
-        static async System.Threading.Tasks.Task Main(string[] args)
+        protected static string Key {
+            get { return _configuration.GetValue<string>("SteamApiKey"); }
+        }
+        protected static TimeSpan TimeBetweenRequests {
+            get
+            {
+                return new TimeSpan(0, _configuration.GetValue<int>("TimeBetweenRequestsMinutes"), 0);
+            }
+        }
+
+        static async Task Main(string[] args)
         {
+            Console.WriteLine("Steam data collector starting");
 
-            // TODO:
             // Load configuration and create repository
             GetAppSettingsFile();
 
+            Console.WriteLine("Steam data collector getting data");
+            _continueWorking = true;
+            // Data getting thread (get from api, save to db)
+            StartDataGetThread();
 
-            SteamApiCommunicator communicator = new SteamApiCommunicator("F402A8BD4427CA62314326C7F7BAF435");
-            var bs = _dataRepository.GetBatchSizeConfiguration().Result.Value;
-            var matches = await communicator.GetMatches(bs);
-
-            // TODO:
-            foreach(var match in matches)
-                await _dataRepository.InsertMatch(match);
-
-
-            Console.WriteLine("Hello World!");
-            Console.ReadLine();
+            // Logic exit
+            string answer = "";
+            do
+            {
+                Console.WriteLine("To exit write 'stop'");
+                answer = Console.ReadLine();
+            } while (answer == "stop");
+            _continueWorking = false;
+            
+            // End
+            Console.WriteLine("Steam data collector terminating");
         }
 
-        static void GetAppSettingsFile()
+        private static async void StartDataGetThread() {
+            DateTime lastWorkTime = new DateTime();
+            while (_continueWorking) {
+                if (DateTime.Now > lastWorkTime + TimeBetweenRequests)
+                {
+                    await GetAndWriteMatches();
+                    lastWorkTime = DateTime.Now;
+                }
+                Thread.Sleep(1000);
+            }
+        }
+
+        private static async Task GetAndWriteMatches()
+        {
+            try
+            {
+                SteamApiCommunicator communicator = new SteamApiCommunicator(Key);
+                int batchSize = _dataRepository.GetBatchSizeConfiguration().Result.Value;
+                var matches = await communicator.GetMatches(batchSize);
+
+
+                foreach (var match in matches)
+                {
+                    if (!(await _dataRepository.CheckMatchExistance(match.ExternalMatchId)))
+                    {
+                        await _dataRepository.InsertMatch(match);
+                        Console.WriteLine("Match {0} inserted", match.ExternalMatchId);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Match {0} skipped", match.ExternalMatchId);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Cant write match");
+                Console.WriteLine(exception.Message);
+            }
+        }
+
+        private static void GetAppSettingsFile()
         {
             var builder = new ConfigurationBuilder()
                                  .SetBasePath(Directory.GetCurrentDirectory())

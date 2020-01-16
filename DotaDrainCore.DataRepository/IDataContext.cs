@@ -12,6 +12,8 @@ namespace DotaDrainCore.DataRepository
 
         Task<Match> GetMatch(int id);
 
+        Task<bool> CheckMatchExistance(ulong externalMatchId);
+
         Task<List<Match>> GetMatches();
         
         Task<BatchSizeConfiguration> UpdateBatchSizeConfiguration(BatchSizeConfiguration configuration);

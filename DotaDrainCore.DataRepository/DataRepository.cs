@@ -23,6 +23,11 @@ namespace DotaDrainCore.DataRepository
             return await _dataContext.GetMatch(id);
         }
 
+        public async Task<bool> CheckMatchExistance(ulong externalMatchId)
+        {
+            return await _dataContext.CheckMatchExistance(externalMatchId);
+        }
+
         public async Task<BatchSizeConfiguration> UpdateBatchSizeConfigurationAsync(BatchSizeConfiguration configuration)
         {
             return await _dataContext.UpdateBatchSizeConfiguration(configuration);
