@@ -20,5 +20,7 @@ namespace DotaDrainCore.DataRepository
 
         Task<BatchSizeConfiguration> GetBatchSizeConfiguration();
 
+        Task<List<PlayerMatchHistory>> GetPlayerMatchHistoryByMatchId(int matchId);
+
     }
 }

@@ -26,6 +26,13 @@ namespace DotaDrainCore.WebApi.Controllers
         public async Task<ActionResult<List<Match>>> Get()
         {
             var matches = await _dataContext.GetMatches();
+            foreach (var match in matches)
+            {
+                var histories = await _dataContext.GetPlayerMatchHistoryByMatchId(match.Id);
+                foreach (var history in histories)
+                    history.Match = null;
+                match.PlayerMatchHistories = histories;
+            }
             return matches;
         }
 

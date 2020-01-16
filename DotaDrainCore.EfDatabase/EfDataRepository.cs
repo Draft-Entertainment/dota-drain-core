@@ -103,5 +103,10 @@ namespace DotaDrainCore.EfDatabase
             await _context.SaveChangesAsync();
             return await GetBatchSizeConfiguration();
         }
+
+        public async Task<List<PlayerMatchHistory>> GetPlayerMatchHistoryByMatchId(int matchId)
+        {
+            return (await _context.PlayerMatchHistories.ToListAsync()).Where(p => p.MatchId == matchId).ToList();
+        }
     }
 }
