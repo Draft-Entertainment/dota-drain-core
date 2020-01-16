@@ -28,7 +28,7 @@ namespace DotaDrainCore.SteamApiCommunication.Communication
             do
             {
                 MatchHistoryModel matches = (await dota2Interaface.GetMatchHistoryAsync(
-                    gameMode: 22, // ranked
+                    gameMode: 1, // All pick
                     startAtMatchId: startAtMatch)).Data;
                 allMatches.AddRange(matches.Matches);
 
@@ -45,9 +45,6 @@ namespace DotaDrainCore.SteamApiCommunication.Communication
             var heroes = (await dota2EconomyInteraface.GetHeroesAsync()).Data;
             var items = (await dota2EconomyInteraface.GetGameItemsAsync()).Data;
 
-
-            List<Match> mappedMatches = new List<Match>();
-
             foreach (var match in allMatches.Take(batchSize))
             {
                 var matchDetails = (await dota2Interaface.GetMatchDetailsAsync(match.MatchId)).Data;
@@ -63,17 +60,20 @@ namespace DotaDrainCore.SteamApiCommunication.Communication
                             Deaths = (int)p.Assists,
                             Assists = (int)p.Assists,
                             Side = (((int)p.PlayerSlot & 128) == 128) ? Side.Dire : Side.Radiant,
-                            Hero = new Hero()
+                            Hero = p.HeroId != 0 ? new Hero()
                             {
                                 ExternalId = p.HeroId,
                                 Name = heroes.FirstOrDefault(h => h.Id == p.HeroId)?.LocalizedName
-                            },
-                            Items = new List<uint> { p.Item0, p.Item1, p.Item2, p.Item3, p.Item4, p.Item5 }
+                            } : null,
+                            ItemPlayerMatchHistories = new List<uint> { p.Item0, p.Item1, p.Item2, p.Item3, p.Item4, p.Item5 }
                                 .Where(p => p != 0)
-                                .Select(i => new Item()
+                                .Select(i => new ItemPlayerMatchHistory()
                                 {
-                                    ExternalId = i,                                    
-                                    Name = items.FirstOrDefault(it => it.Id == i).LocalizedName,
+                                    Item = new Item()
+                                    {
+                                        ExternalId = i,
+                                        Name = items.FirstOrDefault(it => it.Id == i).LocalizedName,
+                                    }
                                 }).ToList(),
                             Player = new Player()
                             {

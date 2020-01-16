@@ -4,14 +4,16 @@ using DotaDrainCore.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotaDrainCore.DataContext.Migrations
 {
     [DbContext(typeof(DotaDrainContext))]
-    partial class DotaDrainContextModelSnapshot : ModelSnapshot
+    [Migration("20200116195132_ItemHistoryManyToMantFix")]
+    partial class ItemHistoryManyToMantFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,6 +176,9 @@ namespace DotaDrainCore.DataContext.Migrations
                     b.Property<int>("HeroId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Kills")
                         .HasColumnType("int");
 
@@ -189,6 +194,8 @@ namespace DotaDrainCore.DataContext.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("HeroId");
+
+                    b.HasIndex("ItemId");
 
                     b.HasIndex("MatchId");
 
@@ -224,7 +231,7 @@ namespace DotaDrainCore.DataContext.Migrations
             modelBuilder.Entity("DotaDrainCore.Entities.ItemPlayerMatchHistory", b =>
                 {
                     b.HasOne("DotaDrainCore.Entities.Item", "Item")
-                        .WithMany("ItemPlayerMatchHistories")
+                        .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -243,6 +250,10 @@ namespace DotaDrainCore.DataContext.Migrations
                         .HasForeignKey("HeroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DotaDrainCore.Entities.Item", null)
+                        .WithMany("PlayerMatchHistories")
+                        .HasForeignKey("ItemId");
 
                     b.HasOne("DotaDrainCore.Entities.Match", null)
                         .WithMany("MatchHistory")

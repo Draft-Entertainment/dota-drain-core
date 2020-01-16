@@ -4,6 +4,7 @@ using DotaDrainCore.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotaDrainCore.EfDatabase
@@ -53,6 +54,39 @@ namespace DotaDrainCore.EfDatabase
 
         public async Task<Match> InsertMatch(Match match)
         {
+            match.MatchHistory.ForEach(matchHistory =>
+            {
+                // TODO : refactor
+                var heroFromDb = matchHistory.Hero != null ? _context.Heroes.FirstOrDefault(hero => hero.ExternalId == matchHistory.Hero.ExternalId) : null;
+                if (heroFromDb != null)
+                {
+                    matchHistory.HeroId = heroFromDb.Id;
+                    matchHistory.Hero = null;
+                }
+                matchHistory.ItemPlayerMatchHistories.ForEach(itemPlayerMatchHistory => {
+                    
+                    var itemFromDb = _context.Items.FirstOrDefault(item => item.ExternalId == itemPlayerMatchHistory.Item.ExternalId);
+
+                    if (itemFromDb != null)
+                    {
+                        itemPlayerMatchHistory.ItemId = itemFromDb.Id;
+                    }
+                });
+
+                var playerFromDb = _context.Players.FirstOrDefault(player => player.PlayerId == matchHistory.Player.PlayerId);
+
+                if (playerFromDb != null)
+                {
+                    matchHistory.PlayerId = playerFromDb.Id;
+                    matchHistory.Player = null;
+                }
+
+            });
+
+            // Do not write match without players
+            if (match.MatchHistory.Any(m => m.HeroId == 0 && m.Hero == null))
+                return null;
+
             var result = await _context.Matches.AddAsync(match);
             await _context.SaveChangesAsync();
             return result.Entity;
@@ -62,7 +96,7 @@ namespace DotaDrainCore.EfDatabase
         {
             return await _context.Matches.AnyAsync(m => m.ExternalMatchId == externalMatchId);
         }
-
+        
         public async Task<BatchSizeConfiguration> UpdateBatchSizeConfiguration(BatchSizeConfiguration configuration)
         {
             _context.Entry(configuration).State = EntityState.Modified;
