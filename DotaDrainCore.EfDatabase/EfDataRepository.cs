@@ -54,42 +54,67 @@ namespace DotaDrainCore.EfDatabase
 
         public async Task<Match> InsertMatch(Match match)
         {
-            match.PlayerMatchHistories.ForEach(matchHistory =>
-            {
-                // TODO : refactor
-                var heroFromDb = matchHistory.Hero != null ? _context.Heroes.FirstOrDefault(hero => hero.ExternalId == matchHistory.Hero.ExternalId) : null;
-                if (heroFromDb != null)
-                {
-                    matchHistory.HeroId = heroFromDb.Id;
-                    matchHistory.Hero = null;
-                }
-                matchHistory.ItemPlayerMatchHistories.ForEach(itemPlayerMatchHistory => {
-                    
-                    var itemFromDb = _context.Items.FirstOrDefault(item => item.ExternalId == itemPlayerMatchHistory.Item.ExternalId);
-
-                    if (itemFromDb != null)
-                    {
-                        itemPlayerMatchHistory.ItemId = itemFromDb.Id;
-                    }
-                });
-
-                var playerFromDb = _context.Players.FirstOrDefault(player => player.PlayerId == matchHistory.Player.PlayerId);
-
-                if (playerFromDb != null)
-                {
-                    matchHistory.PlayerId = playerFromDb.Id;
-                    matchHistory.Player = null;
-                }
-
-            });
-
             // Do not write match without players
             if (match.PlayerMatchHistories.Any(m => m.HeroId == 0 && m.Hero == null))
                 return null;
 
-            var result = await _context.Matches.AddAsync(match);
+            List<PlayerMatchHistory> playerMatchHistories = new List<PlayerMatchHistory>();
+
+            match.PlayerMatchHistories.ForEach(p => {
+                playerMatchHistories.Add(new PlayerMatchHistory(p));
+
+                p.Hero = null;
+                p.ItemPlayerMatchHistories = null;
+                p.Player = null;
+            });
+
+            var matchFormDb = (await _context.Matches.AddAsync(match)).Entity;
             await _context.SaveChangesAsync();
-            return result.Entity;
+
+
+            playerMatchHistories.ForEach(playerMatchHistory =>
+            {
+                playerMatchHistory.MatchId = matchFormDb.Id;
+
+                // TODO : refactor
+                var heroFromDb = playerMatchHistory.Hero != null ? _context.Heroes.FirstOrDefault(hero => hero.ExternalId == playerMatchHistory.Hero.ExternalId) : null;
+                if (heroFromDb != null)
+                {
+                    playerMatchHistory.HeroId = heroFromDb.Id;
+                    playerMatchHistory.Hero = null;
+                }
+
+                playerMatchHistory.ItemPlayerMatchHistories.ForEach(itemPlayerMatchHistory => {
+                    
+                    var itemFromDb = _context.Items.FirstOrDefault(item => item.ExternalId == itemPlayerMatchHistory.Item.ExternalId);
+
+                    if (itemFromDb == null)
+                    {
+                        itemFromDb = (_context.Items.Add(new Item() {
+                            ExternalId = itemPlayerMatchHistory.Item.ExternalId,
+                            Name = itemPlayerMatchHistory.Item.Name
+                        })).Entity;
+                        _context.SaveChanges();
+                    }
+                    itemPlayerMatchHistory.ItemId = itemFromDb.Id;
+                    itemPlayerMatchHistory.Item = null;
+                });
+
+                var playerFromDb = _context.Players.FirstOrDefault(player => player.PlayerId == playerMatchHistory.Player.PlayerId);
+                if (playerFromDb != null)
+                {
+                    playerMatchHistory.PlayerId = playerFromDb.Id;
+                    playerMatchHistory.Player = null;
+                }
+
+            });
+
+            await _context.PlayerMatchHistories.AddRangeAsync(playerMatchHistories);
+            await _context.SaveChangesAsync();
+
+
+
+            return matchFormDb;
         }
 
         public async Task<bool> CheckMatchExistance(ulong externalMatchId)

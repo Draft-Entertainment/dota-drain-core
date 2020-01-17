@@ -4,14 +4,16 @@ using DotaDrainCore.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotaDrainCore.DataContext.Migrations
 {
     [DbContext(typeof(DotaDrainContext))]
-    partial class DotaDrainContextModelSnapshot : ModelSnapshot
+    [Migration("20200117054930_NullablePlayerMatchHistories")]
+    partial class NullablePlayerMatchHistories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
